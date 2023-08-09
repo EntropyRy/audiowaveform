@@ -280,6 +280,14 @@ set(LIBS
 
 target_link_libraries(audiowaveform ${LIBS})
 
+if(BUILD_STATIC_LIBC)
+	# https://stackoverflow.com/a/61815350
+	set_target_properties(audiowaveform PROPERTIES LINK_SEARCH_START_STATIC ON)
+	set_target_properties(audiowaveform PROPERTIES LINK_SEARCH_END_STATIC ON)
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++ -static")
+	set(Boost_USE_STATIC_RUNTIME ON)
+endif(BUILD_STATIC_LIBC)
+
 #-------------------------------------------------------------------------------
 #
 # Tests
